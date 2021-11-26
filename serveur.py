@@ -38,17 +38,20 @@ def home():
 @app.route('/calcul', methods=['POST'])
     
 def get_values():
+    start_coords.clear()
+    end_coords.clear()    
+    
     result=request.form
     ville1=result["ville1"]
     ville2=result["ville2"]
-    #modele=result["nom_voiture"]
-    #autonomie=int(result["autonomie"])
+ 
+    
     autonomie=result["autonomie"]
     loc = Nominatim(user_agent="GetLoc")
     
     getLoc1 = loc.geocode(ville1)
     getLoc2 = loc.geocode(ville2)
-    
+  
     lon1=getLoc1.longitude
     lat1=getLoc1.latitude
     lon2=getLoc2.longitude
@@ -62,15 +65,6 @@ def get_values():
     
     distance_parcourue=SOAP.calcul_distance(lat1,lon1,lat2,lon2)
     
-    # nbr_recharge = round(distance_parcourue[0]/autonomie)
-    #vecteur_lat=(lat2-lat1)
-    #vecteur_lon=(lon2-lon1)
-    
-    #appeler la fonction de recherche des bornes pour chaque point intermédiaire
-    
-    #
-    # bornes = []
-    # mytest = api(lon1+vecteur_lon, lat1+vecteur_lat, autonomie)
     nbr_recharge =  math.ceil(int(distance_parcourue[0]) / float(autonomie))
     
     v_lat = (float(lat2) - float(lat1)) / nbr_recharge
@@ -82,6 +76,7 @@ def get_values():
         
     pointPath = []
     point = []
+
     for i in range(nbr_recharge-1):
          point_lat = point_lat + float(v_lat)
          point_lng = point_lng + float(v_lng)
@@ -93,17 +88,16 @@ def get_values():
          liste_borne.append(borne)
          pointPath.append(get_city(borne))
          point = []
+         
         
     
-    return render_template('calcul.html',distance=distance_parcourue[0], duree=distance_parcourue[1],borne=pointPath, nbr=nbr_recharge)
+    return render_template('calcul.html',distance=round(distance_parcourue[0],2), duree=round(distance_parcourue[1],2),borne=pointPath, nbr=nbr_recharge)
 
 
 @app.route('/api', methods=['POST'])
 def api(borne_lon,borne_lat,autonomie):
     
     url = "https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=bornes-irve&q=&facet=region&geofilter.distance="+str(borne_lat)+"%2C+"+str(borne_lon)+"%2C+"+str(autonomie)+""
-    #url = "https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=bornes-irve&q=&facet=region&geofilter.distance=45.39981182505468%2C+6.059166470888879%2C+2000"
-    # url = "https://opendata.reseaux-energies.fr/api/records/1.0/search/?dataset=bornes-irve&q=&facet=region&geofilter.distance="+str(borne_lat)+"%2C+"+str(borne_lon)+"%2C+2000"
 
     r = requests.get(url)
     rjson=r.json()
@@ -152,14 +146,12 @@ def map():
     arrivee = folium.Marker(end_coords, popup="<i>Ville d'arrivée</i>", tooltip="Arrivée")
     arrivee.add_to(folium_map)
     
-    #for i in range(0,len(coord_borne),2):
+   
     for i in range(len(liste_borne)):
         mark = folium.Marker(liste_borne[i], popup="<i>Borne à utiliser</i>", tooltip=tooltip+" n°"+str(i+1), icon=folium.Icon(color="green"))
-        #mark = folium.Marker([coord_borne[0+int(i)],coord_borne[1+int(i)]], popup="<i>Borne à utiliser</i>", tooltip=tooltip+" n°"+str(int(i/2+1)), icon=folium.Icon(color="green"))
+        
         mark.add_to(folium_map)
     
-    start_coords.clear()
-    end_coords.clear()
     return folium_map._repr_html_()
 
 

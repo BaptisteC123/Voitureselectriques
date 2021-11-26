@@ -1,31 +1,45 @@
-<html><head>
-<title>Réservation véhicule électrique</title>
-</head>
+<html>
+    <head>
+        <title>Réservation véhicule électrique</title>
+    </head>
 
 
-<body>
-<h1>Bien-bien-bien-bienvenue</h1>
-<p>Location de voitures électriques de qualité supérieur:<br>
-L’utilisateur choisit son véhicule dans une liste, il entre un trajet entre deux villes. <br>
-L’application lui indique les villes dans lesquelles il devra s’arrêter pour recharger son véhicule 
-afin d’effectuer son trajet.  </p>
-    <form method="POST" action="/calcul">
-        <select name="autonomie">
-        {% for car in voiture %}
-            
-            Voiture : <option value={{car[3]}}>{{car[1]}} {{car[2]}} - autonomie : {{car[3]}}km - recharge : {{car[4]}}min</option>
-            
-        {% endfor %}
-        </select>        
-
-        <br><br>
+    <body>
+        <h1>Location de voitures électriques X</h1>
         
-        <!--Nom voiture<input name="nom_voiture" type="text" value="Tesla"></input>
-        Autonomie<input name="autonomie" type="number" value="500"></input><br>-->
-        Depart<input name="ville1" type="text"></input>
-        Arrivé<input name="ville2" type="text"></input>
-        <input type="submit" value="Estimer"></input>
-    </form>
-    
-
-</body></html>
+        <div>
+            <p>
+                Location de voitures électriques de qualité supérieur:<br>
+                L’utilisateur choisit son véhicule dans une liste, il entre un trajet entre deux villes. <br>
+                L’application lui indique les villes dans lesquelles il devra s’arrêter pour recharger son véhicule 
+                afin d’effectuer son trajet.
+            </p>
+        </div>
+        
+        
+            <p>Véhicule utilisé:</p>
+            <form method="POST" action="/calcul">
+            
+                <select name="autonomie">
+                    {% for car in voiture %}
+                        
+                        Voiture : <option value={{car[3]}}>{{car[1]}} {{car[2]}} - autonomie : {{car[3]}}km - recharge : {{car[4]}}min</option>
+                        
+                    {% endfor %}
+                </select>        
+        
+                <br><br>
+                
+                <table>
+                    <tr>
+                        <th>Ville de départ</th><th><input name="ville1" type="text" required></input></th>
+                    </tr>
+                    <tr>
+                        <th>Ville d'arrivée</th><th><input name="ville2" type="text" required></input></th>
+                    </tr>
+                </table>
+                <input type="submit" value="Estimer"></input>
+            </form>
+        
+    </body>
+</html>

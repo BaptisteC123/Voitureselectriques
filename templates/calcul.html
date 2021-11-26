@@ -5,25 +5,26 @@
 
 
     <body>
+        <h1>Résultats du trajet</h1>
         <p>
+            <h2>Informations générales</h2>
             La distance a parcourir est de {{distance}}km.<br>
-            La durée estimée est de {{duree}}h<br>
+            Le temps de voyage estimé est de {{duree}}h<br>
             <br>
 
 			Le trajet devra se faire en {{nbr}} étapes.<br><br>
-            Bornes à utiliser : <br></p>
-            
+            Voici la liste des différentes bornes à utiliser : <br>
+        </p>
+       <h2>Bornes à utiliser</h2>     
        <form method="POST" action="/map">      
             {% for bornes in borne %}
-                Emplacement :  {{bornes}} <br>
+                Emplacement :  <strong>{{bornes}}</strong> <br>
             {% endfor %}
-        </p>
-        Afficher sur la MAP
-        
-            <button type="submit">Visualiser</button>
+            
+            <p>Vous pouvez afficher les bornes à utiliser sur une carte :  <button type="submit">Visualiser</button></p>
+            
         </form>
         <form action="/">      
-                
             <button type="submit">Retour</button>
         </form>
     </body>
