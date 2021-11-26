@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Réservation véhicule électrique</title>
+    </head>
+
+
+    <body>
+        <p>
+            La distance a parcourir est de {{distance}}km.<br>
+            La durée estimée est de {{duree}}h<br>
+            <br>
+
+			Le trajet devra se faire en {{nbr}} étapes.<br><br>
+            Bornes à utiliser : <br></p>
+            
+       <form method="POST" action="/map">      
+            {% for bornes in borne %}
+                Emplacement :  {{bornes}} <br>
+            {% endfor %}
+        </p>
+        Afficher sur la MAP
+        
+            <button type="submit">Visualiser</button>
+        </form>
+        <form action="/">      
+                
+            <button type="submit">Retour</button>
+        </form>
+    </body>
+</html>

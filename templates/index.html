@@ -1,0 +1,31 @@
+<html><head>
+<title>Réservation véhicule électrique</title>
+</head>
+
+
+<body>
+<h1>Bien-bien-bien-bienvenue</h1>
+<p>Location de voitures électriques de qualité supérieur:<br>
+L’utilisateur choisit son véhicule dans une liste, il entre un trajet entre deux villes. <br>
+L’application lui indique les villes dans lesquelles il devra s’arrêter pour recharger son véhicule 
+afin d’effectuer son trajet.  </p>
+    <form method="POST" action="/calcul">
+        <select name="autonomie">
+        {% for car in voiture %}
+            
+            Voiture : <option value={{car[3]}}>{{car[1]}} {{car[2]}} - autonomie : {{car[3]}}km - recharge : {{car[4]}}min</option>
+            
+        {% endfor %}
+        </select>        
+
+        <br><br>
+        
+        <!--Nom voiture<input name="nom_voiture" type="text" value="Tesla"></input>
+        Autonomie<input name="autonomie" type="number" value="500"></input><br>-->
+        Depart<input name="ville1" type="text"></input>
+        Arrivé<input name="ville2" type="text"></input>
+        <input type="submit" value="Estimer"></input>
+    </form>
+    
+
+</body></html>
